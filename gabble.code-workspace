@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "name": "client",
+      "path": "./client/"
+    },
+    {
+      "name": "server",
+      "path": "./server/"
+    }
+  ],
+  "settings": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+  }
+}

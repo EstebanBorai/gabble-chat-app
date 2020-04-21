@@ -1,4 +1,4 @@
-# gabble-backend
+# gabble
 
 ## Running Locally
 
@@ -13,7 +13,7 @@ otherwise refer to the following sources to get them:
 required packages:
 
 ```sh
-cd ./gabble-backend/
+cd ./gabble/server/
 dep ensure
 ```
 
@@ -32,7 +32,7 @@ otherwise install *Docker*:
 2. Build the **Dockerfile** available in the project's root directory:
 
 ```sh
-cd ./gabble-backend/
+cd ./gabble/server
 docker build -t gabble-backend .
 ```
 
