@@ -12,13 +12,14 @@ const config = {
   resolve: {
     extensions: [
       '.js',
-      '.ts'
+      '.ts',
+      '.tsx'
     ]
   },
   module: {
     rules: [
       {
-        test: /\.(jsx?|tsx?)/,
+        test: /\.(tsx?)/,
         loader: 'babel-loader',
         include: [
           helpers.root('src')
@@ -58,11 +59,11 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'webpack-boilerplate | Update this from the config/webpack.config.common.js',
+      title: 'gabble | whizzes',
       template: 'public/index.ejs',
       favicon: 'public/favicon.png',
       meta: {
-        'description': 'Your project description',
+        'description': 'A nice chat implementation',
         'theme-color': '#dac8b3'
       }
     })
