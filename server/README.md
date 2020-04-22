@@ -1,6 +1,7 @@
 # Gabble server
 ## Technologies
 - Golang
+- SocketIO
 
 ## Local environment
-SocketIO Local url: `ws://localhost:8000`
+Socket local url: `ws://localhost:8000`
