@@ -49,8 +49,6 @@ func (server *SocketIOServer) Start() {
 	http.HandleFunc("/socket.io/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5000")
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
-		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 
 		server.socket.ServeHTTP(w, r)
 	})
@@ -61,31 +59,30 @@ func (server *SocketIOServer) Start() {
 
 // setEventListeners create setups the SocketIOServer events
 func (server *SocketIOServer) setEventListeners() {
-	server.socket.OnConnect("/", func(conn socketio.Conn) error {
-		conn.SetContext("")
-		log.Printf("Connection Opened with ID: %s", conn.ID())
+	server.socket.OnConnect("/", func(so socketio.Conn) error {
+		so.SetContext("")
+		log.Printf("Connection Opened with ID: %s", so.ID())
 
 		return nil
 	})
 
-	server.socket.OnEvent("/", NOTICE, func(conn socketio.Conn, msg string) {
-		conn.Emit("reply", "have "+msg)
-		log.Printf("Event: %s\t: %v\n", NOTICE, msg)
+	server.socket.OnEvent("/", NOTICE, func(so socketio.Conn, msg string) {
+		so.Emit("reply", "have "+msg)
+		log.Printf("Event: [%s]\t: %v\n", NOTICE, msg)
 	})
 
-	server.socket.OnEvent("/chat", MESSAGE, func(conn socketio.Conn, msg string) string {
-		conn.SetContext(msg)
-		log.Printf("Event: %s\t: %v\n", MESSAGE, msg)
+	server.socket.OnEvent("/", MESSAGE, func(so socketio.Conn, msg string) string {
+		log.Printf("Event: [%s]\tFrom: %s\tBody: %s\n", MESSAGE, so.ID(), msg)
 
-		return "Received " + msg
+		return msg
 	})
 
-	server.socket.OnEvent("/", BYE, func(conn socketio.Conn) string {
-		last := conn.Context().(string)
-		conn.Emit(BYE, last)
-		conn.Close()
+	server.socket.OnEvent("/", BYE, func(so socketio.Conn) string {
+		last := so.Context().(string)
+		so.Emit(BYE, last)
+		so.Close()
 
-		log.Printf("Event: %s\t: Connection closed for: %s\n", BYE, last)
+		log.Printf("Event: [%s]\t: Connection closed for: %s\n", BYE, last)
 
 		return last
 	})
