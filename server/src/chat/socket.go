@@ -61,6 +61,7 @@ func (server *SocketIOServer) Start() {
 // setEventListeners create setups the SocketIOServer events
 func (server *SocketIOServer) setEventListeners() {
 	chatEvents.InitBasicEvents(server.socket)
+	chatEvents.InitHealtEvents(server.socket)
 	server.socket.OnEvent("/", NOTICE, func(so socketio.Conn, msg string) {
 		so.Emit("reply", "have "+msg)
 		log.Printf("Event: [%s]\t: %v\n", NOTICE, msg)
