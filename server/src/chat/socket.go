@@ -62,24 +62,4 @@ func (server *SocketIOServer) Start() {
 func (server *SocketIOServer) setEventListeners() {
 	chatEvents.InitBasicEvents(server.socket)
 	chatEvents.InitHealtEvents(server.socket)
-	server.socket.OnEvent("/", NOTICE, func(so socketio.Conn, msg string) {
-		so.Emit("reply", "have "+msg)
-		log.Printf("Event: [%s]\t: %v\n", NOTICE, msg)
-	})
-
-	server.socket.OnEvent("/", MESSAGE, func(so socketio.Conn, msg string) string {
-		log.Printf("Event: [%s]\tFrom: %s\tBody: %s\n", MESSAGE, so.ID(), msg)
-
-		return msg
-	})
-
-	server.socket.OnEvent("/", BYE, func(so socketio.Conn) string {
-		last := so.Context().(string)
-		so.Emit(BYE, last)
-		so.Close()
-
-		log.Printf("Event: [%s]\t: Connection closed for: %s\n", BYE, last)
-
-		return last
-	})
 }
