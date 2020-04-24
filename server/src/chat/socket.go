@@ -47,7 +47,7 @@ func (server *SocketIOServer) Start() {
 	defer server.socket.Close()
 
 	http.HandleFunc("/socket.io/", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5000")
+		w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 		server.socket.ServeHTTP(w, r)
