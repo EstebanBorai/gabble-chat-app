@@ -13,7 +13,7 @@ function Input(): JSX.Element {
 
   const handleSend = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    sendMessage(inputValue);
+    sendMessage('event', inputValue);
     setInputValue('');
   }
 

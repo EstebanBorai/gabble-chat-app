@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 export interface ChatContext {
   messages: any[];
   isConnected: boolean;
-  sendMessage: (message: string) => void;
+  sendMessage: (event:string, message: string) => void;
 }
 
 export interface ChatContextProps {
@@ -35,9 +35,9 @@ export function ChatContextProvider(props: ChatContextProps): JSX.Element {
     });
   }, []);
 
-  const sendMessage = (message: string): void => {
-    if (message && isConnected) {
-      socket.send(message);
+  const sendMessage = (event: string, message: string): void => {
+    if (isConnected) {
+      socket.emit(event, message);
     }
   };
 
