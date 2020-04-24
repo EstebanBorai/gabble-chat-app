@@ -54,7 +54,7 @@ func (server *SocketIOServer) Start() {
 		server.socket.ServeHTTP(w, r)
 	})
 
-	log.Println("Serving at http://127.0.0.1" + server.port)
+	log.Println("Serving at http://0.0.0.0" + server.port)
 	log.Fatal(http.ListenAndServe(server.port, nil))
 }
 
