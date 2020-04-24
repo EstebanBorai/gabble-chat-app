@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	socketio "github.com/googollee/go-socket.io"
+	chatEvents "github.com/whizzes/gabble/server/src/chat/events"
 )
 
 const (
@@ -59,13 +60,7 @@ func (server *SocketIOServer) Start() {
 
 // setEventListeners create setups the SocketIOServer events
 func (server *SocketIOServer) setEventListeners() {
-	server.socket.OnConnect("/", func(so socketio.Conn) error {
-		so.SetContext("")
-		log.Printf("Connection Opened with ID: %s", so.ID())
-
-		return nil
-	})
-
+	chatEvents.InitBasicEvents(server.socket)
 	server.socket.OnEvent("/", NOTICE, func(so socketio.Conn, msg string) {
 		so.Emit("reply", "have "+msg)
 		log.Printf("Event: [%s]\t: %v\n", NOTICE, msg)
@@ -85,14 +80,5 @@ func (server *SocketIOServer) setEventListeners() {
 		log.Printf("Event: [%s]\t: Connection closed for: %s\n", BYE, last)
 
 		return last
-	})
-
-	server.socket.OnError("/", func(conn socketio.Conn, e error) {
-		// print the error message and stop
-		log.Fatal(e)
-	})
-
-	server.socket.OnDisconnect("/", func(conn socketio.Conn, reason string) {
-		log.Println("closed", reason)
 	})
 }
