@@ -3,7 +3,7 @@ import ChatContext, { ChatContext as IChatContext } from '../../contexts/chat';
 import Input from './input';
 
 function Chat(): JSX.Element {
-  const { isConnected, messages } = useContext<IChatContext>(ChatContext);
+  const { isConnected, messages } = useContext(ChatContext);
 
   return (
     <div>
