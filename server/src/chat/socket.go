@@ -22,11 +22,12 @@ const (
 type SocketIOServer struct {
 	socket *socketio.Server
 	port   string
+	host   string
 }
 
 // MakeServer creates a new SocketIOServer
 // and returns it
-func MakeServer(port string) (*SocketIOServer, error) {
+func MakeServer(host string, port string) (*SocketIOServer, error) {
 	socket, err := socketio.NewServer(nil)
 
 	if err != nil {
@@ -37,6 +38,7 @@ func MakeServer(port string) (*SocketIOServer, error) {
 
 	server.port = port
 	server.socket = socket
+	server.host = host
 	server.setEventListeners()
 
 	return server, nil
@@ -53,9 +55,9 @@ func (server *SocketIOServer) Start() {
 
 		server.socket.ServeHTTP(w, r)
 	})
-
-	log.Println("Serving at http://0.0.0.0" + server.port)
-	log.Fatal(http.ListenAndServe(server.port, nil))
+	host := server.host + ":" + server.port
+	log.Println("Serving at http://" + host)
+	log.Fatal(http.ListenAndServe(host, nil))
 }
 
 // setEventListeners create setups the SocketIOServer events
