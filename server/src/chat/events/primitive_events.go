@@ -24,6 +24,6 @@ func InitBasicEvents(server *socketio.Server) {
 	})
 
 	server.OnDisconnect(config.PATH, func(conn socketio.Conn, reason string) {
-		log.Println("closed", reason)
+		log.Printf("Closed connection ID: %s, reason: %s", conn.ID(), reason)
 	})
 }
