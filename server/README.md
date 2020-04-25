@@ -4,7 +4,7 @@
 - SocketIO
 
 ## Local environment
-Socket local url: `ws://localhost:8000`
+Socket local url: `ws://${env.SERVER_HOST}:${env.SERVER_PORT}`
 
 ## Environment variables
 ```env
