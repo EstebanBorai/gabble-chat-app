@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -14,8 +14,7 @@ func main() {
 	server, err := chat.MakeServer(os.Getenv("SERVER_HOST"), os.Getenv("SERVER_PORT"))
 
 	if err != nil {
-		fmt.Printf("socket new server err: %v\n", err)
-		return
+		log.Fatal(err)
 	}
 
 	server.Start()
