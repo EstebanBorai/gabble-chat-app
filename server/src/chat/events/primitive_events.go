@@ -17,8 +17,10 @@ func InitBasicEvents(server *socketio.Server) {
 	})
 
 	server.OnError(config.PATH, func(conn socketio.Conn, e error) {
-		// print the error message and stop
-		log.Fatal(e)
+		// If the error is different to EOF, print and stop the server
+		if e.Error() != "EOF" {
+			log.Fatal(e)
+		}
 	})
 
 	server.OnDisconnect(config.PATH, func(conn socketio.Conn, reason string) {
