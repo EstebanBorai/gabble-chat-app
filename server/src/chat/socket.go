@@ -28,6 +28,10 @@ type SocketIOServer struct {
 // MakeServer creates a new SocketIOServer
 // and returns it
 func MakeServer(host string, port string) (*SocketIOServer, error) {
+	if host == "" || port == "" {
+		log.Fatal("SERVER_HOST or SERVER_PORT shouldnt be empty")
+	}
+
 	socket, err := socketio.NewServer(nil)
 
 	if err != nil {
