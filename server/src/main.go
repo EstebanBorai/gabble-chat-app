@@ -15,7 +15,13 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	server, err := chat.MakeServer(os.Getenv("SERVER_HOST"), os.Getenv("SERVER_PORT"))
+	serverHost, serverPort := os.Getenv("SERVER_HOST"), os.Getenv("SERVER_PORT")
+
+	if serverHost == "" || serverPort == "" {
+		log.Fatal("SERVER_HOST or SERVER_PORT shouldnt be empty")
+	}
+
+	server, err := chat.MakeServer(serverHost, serverPort)
 
 	if err != nil {
 		fmt.Printf("socket new server err: %v\n", err)
