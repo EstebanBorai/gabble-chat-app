@@ -5,33 +5,29 @@ import (
 	"net/http"
 
 	socketio "github.com/googollee/go-socket.io"
-	chatEvents "github.com/whizzes/gabble/server/src/chat/events"
-)
-
-const (
-	// NOTICE represents the "notice" event
-	NOTICE string = "notice"
-	// MESSAGE represents the "message" event
-	MESSAGE string = "message"
-	// BYE represents the "bye" event
-	BYE string = "bye"
 )
 
 // SocketIOServer encapsulates functionality for
 // running a ScoketIO server
 type SocketIOServer struct {
-	socket *socketio.Server
-	port   string
-	host   string
+	port              string
+	host              string
+	DefaultSocketPath string
+	Socket            *socketio.Server
+}
+
+// SocketIOConfig represents the required
+// configuration to build a SocketIOServer
+// instance
+type SocketIOConfig interface {
+	GetHost() string
+	GetPort() string
+	GetDefaultSocketPath() string
 }
 
 // MakeServer creates a new SocketIOServer
 // and returns it
-func MakeServer(host string, port string) (*SocketIOServer, error) {
-	if host == "" || port == "" {
-		log.Fatal("SERVER_HOST and SERVER_PORT must be defined")
-	}
-
+func MakeServer(conf SocketIOConfig) (*SocketIOServer, error) {
 	socket, err := socketio.NewServer(nil)
 
 	if err != nil {
@@ -40,24 +36,25 @@ func MakeServer(host string, port string) (*SocketIOServer, error) {
 
 	server := new(SocketIOServer)
 
-	server.port = port
-	server.socket = socket
-	server.host = host
-	server.setEventListeners()
+	server.port = conf.GetPort()
+	server.host = conf.GetHost()
+	server.Socket = socket
+	server.DefaultSocketPath = conf.GetDefaultSocketPath()
+	// server.setEventListeners()
 
 	return server, nil
 }
 
 // Start serves the SockeIO server
 func (server *SocketIOServer) Start() {
-	go server.socket.Serve()
-	defer server.socket.Close()
+	go server.Socket.Serve()
+	defer server.Socket.Close()
 
 	http.HandleFunc("/socket.io/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 
-		server.socket.ServeHTTP(w, r)
+		server.Socket.ServeHTTP(w, r)
 	})
 	host := server.host + ":" + server.port
 	log.Println("Serving at http://" + host)
@@ -66,6 +63,6 @@ func (server *SocketIOServer) Start() {
 
 // setEventListeners create setups the SocketIOServer events
 func (server *SocketIOServer) setEventListeners() {
-	chatEvents.InitBasicEvents(server.socket)
-	chatEvents.InitHealtEvents(server.socket)
+	InitBasicEvents(server)
+	InitHealtEvents(server)
 }

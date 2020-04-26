@@ -1,3 +1,6 @@
+# Instance related files
+.env
+
 # MacOS
 .DS_Store
 .AppleDouble
