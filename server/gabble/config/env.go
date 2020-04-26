@@ -10,9 +10,8 @@ import (
 // EnvConfig satisfies Gabble server
 // configuration from a .env file
 type EnvConfig struct {
-	port              string
-	host              string
-	defaultSocketPath string
+	port string
+	host string
 }
 
 // GetHost returns the "SERVER_HOST" value from the .env file
@@ -23,11 +22,6 @@ func (conf *EnvConfig) GetHost() string {
 // GetPort returns the "SERVER_PORT" value from the .env file
 func (conf *EnvConfig) GetPort() string {
 	return conf.port
-}
-
-// GetDefaultSocketPath returns the "DEFAULT_SOCKET_PATH" value from the .env file
-func (conf *EnvConfig) GetDefaultSocketPath() string {
-	return conf.defaultSocketPath
 }
 
 // FromEnv reads configuration from a .env file located
@@ -43,7 +37,6 @@ func FromEnv() (*EnvConfig, error) {
 
 	conf.host = mustGetEnv("SERVER_HOST")
 	conf.port = mustGetEnv("SERVER_PORT")
-	conf.defaultSocketPath = mustGetEnv("DEFAULT_SOCKET_PATH")
 
 	return conf, nil
 }

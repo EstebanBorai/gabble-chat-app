@@ -11,7 +11,7 @@ const (
 
 // InitHealtEvents Basic health events
 func InitHealtEvents(server *SocketIOServer) {
-	server.Socket.OnEvent(server.DefaultSocketPath, PingEvent, func(so socketio.Conn, msg string) {
+	server.Socket.OnEvent(RootNamespace, PingEvent, func(so socketio.Conn, msg string) {
 		so.Emit(PingEvent, msg)
 	})
 }

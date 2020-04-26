@@ -10,10 +10,9 @@ import (
 // SocketIOServer encapsulates functionality for
 // running a ScoketIO server
 type SocketIOServer struct {
-	port              string
-	host              string
-	DefaultSocketPath string
-	Socket            *socketio.Server
+	port   string
+	host   string
+	Socket *socketio.Server
 }
 
 // SocketIOConfig represents the required
@@ -22,7 +21,6 @@ type SocketIOServer struct {
 type SocketIOConfig interface {
 	GetHost() string
 	GetPort() string
-	GetDefaultSocketPath() string
 }
 
 // MakeServer creates a new SocketIOServer
@@ -39,8 +37,7 @@ func MakeServer(conf SocketIOConfig) (*SocketIOServer, error) {
 	server.port = conf.GetPort()
 	server.host = conf.GetHost()
 	server.Socket = socket
-	server.DefaultSocketPath = conf.GetDefaultSocketPath()
-	// server.setEventListeners()
+	server.setEventListeners()
 
 	return server, nil
 }

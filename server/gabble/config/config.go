@@ -5,5 +5,4 @@ package config
 type Config interface {
 	GetHost() string
 	GetPort() string
-	GetDefaultSocketPath() string
 }
