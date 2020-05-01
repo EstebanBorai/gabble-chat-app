@@ -12,7 +12,7 @@ func main() {
 		panic(err)
 	}
 
-	server, err := gabble.NewGabble(conf)
+	server, err := gabble.New(conf)
 
 	if err != nil {
 		panic(err)
