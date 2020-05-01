@@ -5,5 +5,7 @@ package config
 type Config interface {
 	GetHost() string
 	GetPort() string
+	GetClientHost() string
+	GetClientPort() string
 	GetLogLevel() int
 }

@@ -19,19 +19,21 @@ type Chat struct {
 type Config interface {
 	GetHost() string
 	GetPort() string
+	GetClientHost() string
+	GetClientPort() string
 }
 
 // New creates a new Chat instance
 func New(conf Config, logs *logger.Logger) (*Chat, error) {
 	var chat *Chat = new(Chat)
 
-	var upgrader *websocket.Upgrader = new(websocket.Upgrader)
-
-	chat.upgrader = upgrader
-
 	if logs != nil {
 		chat.logs = logs
 	}
+
+	chat.clients = make(map[*websocket.Conn]Client)
+	chat.upgrader = makeSocketUpgrader(conf)
+	chat.session = make(chan Message)
 
 	go chat.listenMessages()
 
@@ -60,6 +62,21 @@ func (chat *Chat) Broadcast(message *Message) {
 	}
 }
 
+func makeSocketUpgrader(conf Config) *websocket.Upgrader {
+	upgrader := new(websocket.Upgrader)
+
+	// allowedOrigin := "http://" + conf.GetClientHost() + ":" + conf.GetClientPort()
+
+	upgrader.CheckOrigin = func(r *http.Request) bool {
+		// TODO: Should compare the request origin with the allowed origin to
+		// return true
+
+		return true
+	}
+
+	return upgrader
+}
+
 // For every message that arrives to this session
 // broadcast the message to clients
 func (chat *Chat) listenMessages() {
@@ -67,7 +84,7 @@ func (chat *Chat) listenMessages() {
 		message := <-chat.session
 
 		if chat.logs != nil {
-			chat.logs.Info("Received message: " + message.String())
+			chat.logs.Info("Received message: " + message.MustParseString())
 		}
 
 		chat.Broadcast(&message)
@@ -82,7 +99,6 @@ func (chat *Chat) makeRequestsHandler() http.HandlerFunc {
 			if chat.logs != nil {
 				chat.logs.Error(err)
 			}
-		} else {
 			// should be handled someway
 			panic(err)
 		}

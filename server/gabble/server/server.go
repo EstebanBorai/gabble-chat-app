@@ -28,7 +28,7 @@ func NewServer(conf Config, chatHander http.HandlerFunc, logs *logger.Logger) (*
 		gabbleServer.logs = logs
 	}
 
-	gabbleServer.addr = conf.GetHost() + conf.GetPort()
+	gabbleServer.addr = conf.GetHost() + ":" + conf.GetPort()
 
 	serv := new(http.Server)
 	serv.Addr = gabbleServer.addr

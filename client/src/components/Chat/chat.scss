@@ -1,0 +1,82 @@
+#chat-session {
+  display: grid;
+  grid-template-rows: auto 56px;
+  height: calc(100vh - 64px);
+  width: 100%;
+}
+
+.chat {
+  background-color: #ffffff;
+  box-sizing: border-box;
+  grid-row: 1 / 1;
+  list-style-type: none;
+  margin: 0;
+  padding: 1rem;
+  width: 100%;
+}
+
+.bubble-container {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.bubble-container:hover {
+  background-color: #eeeeee77;
+  cursor: pointer;
+}
+
+.bubble-container time {
+  font-size: .8rem;
+}
+
+.bubble-container.owner {
+  flex-direction: row-reverse;
+}
+
+.bubble-container.system {
+  align-items: center;
+  justify-content: center;
+}
+
+.bubble {
+  background-color: #e9e9eb;
+  color: #000000;
+  border-radius: .3rem;
+  box-sizing: border-box;
+  font-size: .9rem;
+  margin-bottom: 1rem;
+  max-width: 45%;
+  padding: .4rem;
+}
+
+.bubble small {
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: .5rem;
+}
+
+.bubble-container.owner > .bubble {
+  background-color: #2392fd;
+  color: #ffffff;
+}
+
+.bubble-container.system > .bubble {
+  background-color: #f0e399;
+  color: #000000;
+}
+
+.bubble p {
+  margin: 0;
+}
+
+.chat-input {
+  grid-row: 2 / 2;
+}
+
+.chat-input form {
+  height: 100%;
+  width: 100%;
+}

@@ -1,12 +1,8 @@
 package config
 
-import (
-	"github.com/joho/godotenv"
-)
-
-// EnvConfig satisfies Gabble server
-// configuration from a .env file
-type EnvConfig struct {
+// OSEnvConfig satisfies Gabble server
+// configuration from OS environment variables
+type OSEnvConfig struct {
 	port       string
 	host       string
 	clientHost string
@@ -15,40 +11,33 @@ type EnvConfig struct {
 }
 
 // GetHost returns the "SERVER_HOST" value from the .env file
-func (conf *EnvConfig) GetHost() string {
+func (conf *OSEnvConfig) GetHost() string {
 	return conf.host
 }
 
 // GetPort returns the "SERVER_PORT" value from the .env file
-func (conf *EnvConfig) GetPort() string {
+func (conf *OSEnvConfig) GetPort() string {
 	return conf.port
 }
 
 // GetClientHost returns the "SERVER_PORT" value from the .env file
-func (conf *EnvConfig) GetClientHost() string {
+func (conf *OSEnvConfig) GetClientHost() string {
 	return conf.clientHost
 }
 
 // GetClientPort returns the "SERVER_PORT" value from the .env file
-func (conf *EnvConfig) GetClientPort() string {
+func (conf *OSEnvConfig) GetClientPort() string {
 	return conf.clientPort
 }
 
 // GetLogLevel returns the "LOG_LEVEL" value from the .env file
-func (conf *EnvConfig) GetLogLevel() int {
+func (conf *OSEnvConfig) GetLogLevel() int {
 	return conf.logLevel
 }
 
-// FromEnvFile reads configuration from a .env file located
-// in the CWD and returns a EnvConfig
-func FromEnvFile() (*EnvConfig, error) {
-	var conf *EnvConfig = new(EnvConfig)
-
-	err := godotenv.Load()
-
-	if err != nil {
-		return nil, err
-	}
+// FromOsEnv reads configuration from the OS environment variables
+func FromOsEnv() (*OSEnvConfig, error) {
+	var conf *OSEnvConfig = new(OSEnvConfig)
 
 	conf.host = MustGetEnv("SERVER_HOST")
 	conf.port = MustGetEnv("SERVER_PORT")

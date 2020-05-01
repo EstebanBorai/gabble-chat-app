@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	conf, err := config.FromEnv()
+	conf, err := config.FromOsEnv()
 
 	if err != nil {
 		panic(err)

@@ -1,55 +1,52 @@
-import React, { createContext, useState, useEffect } from 'react';
-import io from 'socket.io-client';
+import React, { Context, useState, createContext, useEffect } from 'react';
+import { Author, Message, ChatServiceInterface } from '../services/ChatService';
 
-export interface ChatContext {
-  messages: any[];
-  isConnected: boolean;
-  sendMessage: (event:string, message: string) => void;
+export interface ChatContextInterface {
+  author?: Author;
+  messages: Message[];
+  error?: string;
+  join: (username: string) => void;
+  send: (message: string) => void;
 }
 
 export interface ChatContextProps {
+  service: ChatServiceInterface;
   children: JSX.Element;
 }
 
-const Chat = createContext<ChatContext | undefined>(undefined);
+const ChatContext = createContext<Context<ChatContextInterface>>(null);
+
+ChatContext.displayName = 'ChatContext';
 
 export function ChatContextProvider(props: ChatContextProps): JSX.Element {
-  // Socket implementation must be written into a service
-  // this is a test approach
-  const [isConnected, setConnected] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const socket = io(`ws://${process.env.WEB_SOCKET_HOST}:${process.env.WEB_SOCKET_PORT}`);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [author, setAuthor] = useState<Author>(null);
 
   useEffect(() => {
-    socket.on('message', (data: any) => {
-      console.log('Received message from server:', data);
-      setMessages([...messages, data]);
+    props.service.messages.subscribe((next) => {
+      setMessages([...next]);
     });
 
-    socket.on('connect', () => {
-      setConnected(socket.connected);
+    props.service.author.subscribe((next) => {
+      setAuthor(next);
     });
 
-    socket.on('connect', () => {
-      setConnected(socket.connected);
-    });
+    return () => {
+      props.service.messages.unsubscribe();
+      props.service.author.unsubscribe();
+    };
   }, []);
 
-  const sendMessage = (event: string, message: string): void => {
-    if (isConnected) {
-      socket.emit(event, message);
-    }
-  };
-
   return (
-    <Chat.Provider value={{
-      isConnected,
+    <ChatContext.Provider value={{
+      author,
       messages,
-      sendMessage
+      join: props.service.join,
+      send: props.service.send
     }}>
       {props.children}
-    </Chat.Provider>
+    </ChatContext.Provider>
   );
 }
 
-export default Chat;
+export default ChatContext;

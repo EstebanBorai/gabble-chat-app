@@ -1,12 +1,16 @@
-import React from 'react';
-import './app.scss';
-import { ChatContextProvider } from '../../contexts/chat';
+import React, { useRef } from 'react';
 import Main from '../Main';
+import { ChatContextProvider } from '../../contexts/chat';
+import ChatService, { ChatServiceInterface } from '../../services/ChatService';
 
-const App = (): JSX.Element => (
-  <ChatContextProvider>
-    <Main />
-  </ChatContextProvider>
-);
+function App(): JSX.Element {
+  const chatService = useRef<ChatServiceInterface>(new ChatService());
+
+  return (
+    <ChatContextProvider service={chatService.current}>
+      <Main />
+    </ChatContextProvider>
+  )
+}
 
 export default App;

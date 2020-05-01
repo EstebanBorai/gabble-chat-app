@@ -56,13 +56,13 @@ func (l *Logger) log(level LogLevel, message string) {
 	if level <= l.level {
 		switch level {
 		case Info:
-			log.Printf("%s %s\n", InfoColor, message)
+			log.Println("[\033[1;34mINFO\033[0m]  " + message)
 		case Warning:
-			log.Printf("%s %s\n", WarningColor, message)
+			log.Println("[\033[1;33mWARN\033[0m]  " + message)
 		case Error:
-			log.Printf("%s %s\n", ErrorColor, message)
+			log.Println("[\033[1;31mERROR\033[0m]  " + message)
 		default:
-			log.Printf("%s\n", message)
+			log.Println(message)
 		}
 	}
 }
