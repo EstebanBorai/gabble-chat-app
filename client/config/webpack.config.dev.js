@@ -35,7 +35,7 @@ const config = merge(commonConfig, {
     hot: true,
     open: true,
     overlay: true,
-    port: 5000,
+    port: 8080,
     stats: {
       normal: true
     }

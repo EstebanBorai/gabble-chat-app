@@ -1,0 +1,26 @@
+#header {
+  align-items: flex-start;
+  background-color: var(--primary);
+  box-sizing: border-box;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 64px;
+  justify-content: center;
+  padding: 0 0 0 1rem;
+
+  h1 {
+    font-size: 1rem;
+    margin: 0;
+    margin-bottom: .5rem;
+  }
+}
+
+main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px);
+  justify-content: center;
+  width: 100%;
+}

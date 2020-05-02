@@ -1,0 +1,35 @@
+#login {
+  color: #eeeeee;
+}
+
+#login article {
+  text-align: center;
+}
+
+#login article form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#login input[type="text"] {
+  background-color: transparent;
+  border: 1px solid #eeeeee;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: .3rem .6rem;
+}
+
+#login button {
+  border: none;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 1rem;
+  margin-top: 1rem;
+  padding: .3rem .6rem;
+}

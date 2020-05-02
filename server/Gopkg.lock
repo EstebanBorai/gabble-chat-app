@@ -2,31 +2,12 @@
 
 
 [[projects]]
-  digest = "1:6973c2e8119789f8600a3eb9af765c57ea27824f1789198597d701c01abbc013"
-  name = "github.com/googollee/go-engine.io"
-  packages = [
-    ".",
-    "base",
-    "packet",
-    "payload",
-    "transport",
-    "transport/polling",
-    "transport/websocket",
-  ]
+  digest = "1:582b704bebaa06b48c29b0cec224a6058a09c86883aaddabde889cd1a5f73e1b"
+  name = "github.com/google/uuid"
+  packages = ["."]
   pruneopts = "UT"
-  revision = "d1cac332336664ac940c0db96d83e9b181cd335c"
-  version = "v1.4.2"
-
-[[projects]]
-  digest = "1:f58b7651e01bdf11e0564073745c613d8da55f49b67addbceab81e45653914c0"
-  name = "github.com/googollee/go-socket.io"
-  packages = [
-    ".",
-    "parser",
-  ]
-  pruneopts = "UT"
-  revision = "a94b83ffe22a53b14946d177551f877cb7e95e57"
-  version = "v1.4.3"
+  revision = "0cd6bf5da1e1c83f8b45653022c74f71af0538a4"
+  version = "v1.1.1"
 
 [[projects]]
   digest = "1:6d29f02f0f01c627c2be40fb7347669a9ff2aa215cb97747294c1d13ffa74bdd"
@@ -48,7 +29,8 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/googollee/go-socket.io",
+    "github.com/google/uuid",
+    "github.com/gorilla/websocket",
     "github.com/joho/godotenv",
   ]
   solver-name = "gps-cdcl"

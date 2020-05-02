@@ -1,23 +1,40 @@
-import React, { useContext } from 'react';
-import ChatContext, { ChatContext as IChatContext } from '../../contexts/chat';
-import Input from './input';
+import React from 'react';
+import './chat.scss';
+import ChatContext, { ChatContextInterface, Message } from '../../contexts/chat';
+import Bubble from './Bubble';
 
-function Chat(): JSX.Element {
-  const { isConnected, messages } = useContext(ChatContext);
+const Chat = (): JSX.Element => {
+  const [text, setText] = React.useState('');
+
+  const { send, messages, author } = React.useContext<ChatContextInterface>(ChatContext);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setText(event.target.value);
+  }
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+
+    send(text);
+  }
 
   return (
-    <div>
-      <header>
-        {isConnected ? 'Connected' : 'Not Connected'}
-      </header>
-      <ul>
-        {messages?.map((message: string) => (
-          <li>{message}</li>
-        ))}
+    <section className="application-section" id="chat-session">
+      <ul className="chat">
+        {
+          messages.map((m: Message, index) => (
+          <Bubble key={index} message={m} me={author} />
+          ))
+        }
       </ul>
-      <Input />
-    </div>
+      <div className="chat-input">
+        <form action="" onSubmit={handleSubmit}>
+          <input type="text" name="text" value={text} onChange={handleChange} />
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </section>
   );
-};
+}
 
 export default Chat;
