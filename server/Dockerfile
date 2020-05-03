@@ -10,11 +10,7 @@ COPY . .
 
 RUN dep ensure
 
-RUN ls
-
 RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/gabble/server ./main.go
-
-RUN ls
 
 RUN /go/bin/gabble/server
 
