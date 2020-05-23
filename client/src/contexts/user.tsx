@@ -7,7 +7,7 @@ export interface IUser {
 
 export interface IUserContext {
   user: IUser;
-  join: (user: IUser) => void;
+  join: (username: string) => void;
 }
 
 export interface UserContextProps {

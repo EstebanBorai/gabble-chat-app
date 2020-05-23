@@ -42,12 +42,16 @@ export function ChatContextProvider(props: ChatContextProps): JSX.Element {
     chatService.connect('ws://127.0.0.1:4200');
   }, []);
 
+  const send = useCallback((message: string): void => {
+    chatService.send(message);
+  }, []);
+
   return (
     <ChatContext.Provider value={{
       isConnected,
       messages,
       connect,
-      send: chatService.send
+      send
     }}>
       {props.children}
     </ChatContext.Provider>

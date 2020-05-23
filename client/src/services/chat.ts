@@ -2,7 +2,7 @@ import makeArrBuffStr from 'arrbuffstr';
 import {
   BehaviorSubject, fromEvent, merge, Observable,
 } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 export interface Message {
   body: any;
@@ -38,17 +38,16 @@ class ChatService implements IChatService {
     return new Promise((resolve, reject): void => {
       try {
         this.ws = new WebSocket(url);
-
+        this.isConnected.next(true);
         const closed$ = fromEvent(this.ws, 'close')
           .pipe(
-            map(() => {
+            tap(() => {
               this.isConnected.next(false);
-
-              return {
+            }),
+            map(() => ({
                 body: 'Connection done',
                 author: 'System'
-              };
-            }));
+              })));
 
         const message$ = fromEvent(this.ws, 'message')
           .pipe(
@@ -66,14 +65,20 @@ class ChatService implements IChatService {
 
         const open$ = fromEvent(this.ws, 'open')
         .pipe(
-          map(() => {
+          tap(() => {
             this.isConnected.next(true);
-
-            return {
+          }),
+          map(() => ({
               body: 'Connection established',
               author: 'System'
-            };
-          }));
+            })));
+
+        const error = fromEvent(this.ws, 'error')
+          .pipe(
+            tap((e) => {
+              console.error('WS ERROR', e);
+            })
+          )
 
         this.stream = merge(closed$, message$, send$, open$);
 

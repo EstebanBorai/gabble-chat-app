@@ -2,14 +2,6 @@
 
 
 [[projects]]
-  digest = "1:582b704bebaa06b48c29b0cec224a6058a09c86883aaddabde889cd1a5f73e1b"
-  name = "github.com/google/uuid"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "0cd6bf5da1e1c83f8b45653022c74f71af0538a4"
-  version = "v1.1.1"
-
-[[projects]]
   digest = "1:6d29f02f0f01c627c2be40fb7347669a9ff2aa215cb97747294c1d13ffa74bdd"
   name = "github.com/gorilla/websocket"
   packages = ["."]
@@ -25,31 +17,12 @@
   revision = "23d116af351c84513e1946b527c88823e476be13"
   version = "v1.3.0"
 
-[[projects]]
-  branch = "master"
-  digest = "1:689d70dbb046667245be6caca9a4f5ca2f43ebd08002a395171d1ad901621099"
-  name = "github.com/whizzes/gabble"
-  packages = [
-    "server/gabble",
-    "server/gabble/chat",
-    "server/gabble/config",
-    "server/gabble/logger",
-    "server/gabble/server",
-  ]
-  pruneopts = "UT"
-  revision = "6bffe520b9014500e07df9adeb582131b4586448"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
     "github.com/gorilla/websocket",
     "github.com/joho/godotenv",
-    "github.com/whizzes/gabble/server/gabble",
-    "github.com/whizzes/gabble/server/gabble/chat",
-    "github.com/whizzes/gabble/server/gabble/config",
-    "github.com/whizzes/gabble/server/gabble/logger",
-    "github.com/whizzes/gabble/server/gabble/server",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

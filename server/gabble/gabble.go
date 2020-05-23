@@ -9,7 +9,8 @@ import (
 
 // Gabble instance
 type Gabble struct {
-	server *server.Server
+	chatHub *chat.Hub
+	server  *server.Server
 }
 
 // New creates a new Gabble instance
@@ -23,13 +24,13 @@ func New(conf config.Config) (*Gabble, error) {
 		logs = logger.NewLogger(int8(conf.GetLogLevel()))
 	}
 
-	ch, err := chat.New(conf, logs)
-
-	chatRequestHandler := ch.GetHandler()
+	ch, hub, err := chat.NewChat(conf, logs)
 
 	if err != nil {
 		return nil, err
 	}
+
+	chatRequestHandler := ch.GetHandler()
 
 	serv, err = server.NewServer(conf, chatRequestHandler, logs)
 
@@ -38,11 +39,13 @@ func New(conf config.Config) (*Gabble, error) {
 	}
 
 	instance.server = serv
+	instance.chatHub = hub
 
 	return instance, nil
 }
 
 // Run initializes a Gabble server
 func (s *Gabble) Run() {
+	go s.chatHub.Await()
 	s.server.Listen()
 }

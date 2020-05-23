@@ -1,12 +1,11 @@
 package chat
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gorilla/websocket"
 
-	"github.com/estebanborai/whizzes-gabble/server/gabble/logger"
+	"github.com/whizzes/gabble/server/gabble/logger"
 )
 
 type Chat struct {
@@ -16,7 +15,7 @@ type Chat struct {
 }
 
 // NewChat creates a new Chat instance
-func NewChat(conf Config, logs *logger.Logger) (*Chat, error) {
+func NewChat(conf Config, logs *logger.Logger) (*Chat, *Hub, error) {
 	var chat *Chat = new(Chat)
 
 	if logs != nil {
@@ -25,14 +24,9 @@ func NewChat(conf Config, logs *logger.Logger) (*Chat, error) {
 
 	// Create upgrader
 	chat.upgrader = makeSocketUpgrader(conf)
-	chat.hub = newHub()
+	chat.hub = newHub(logs)
 
-	return chat, nil
-}
-
-// Start a Chat instance
-func (c *Chat) Start() {
-	HubStart()
+	return chat, chat.hub, nil
 }
 
 func (c *Chat) GetHandler() http.HandlerFunc {
@@ -54,11 +48,18 @@ func makeSocketUpgrader(conf Config) *websocket.Upgrader {
 
 func (c *Chat) makeRequestsHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if c.logs != nil {
+			c.logs.Info("Received request")
+		}
+
 		conn, err := c.upgrader.Upgrade(w, r, nil)
 
 		if err != nil {
-			log.Println(err)
-			return
+			if c.logs != nil {
+				c.logs.Error(err)
+			}
+
+			panic(err)
 		}
 
 		client := &Client{
