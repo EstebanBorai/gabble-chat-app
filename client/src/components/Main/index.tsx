@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import './main.scss';
 import Login from '../Login';
 import Chat from '../Chat';
-import ChatContext, { ChatContextInterface } from '../../contexts/chat';
+import ChatContext, { IChatContext } from '../../contexts/chat';
 
 function Main(): JSX.Element {
-  const { author } = useContext<ChatContextInterface>(ChatContext);
+  const { isConnected } = useContext<IChatContext>(ChatContext);
 
   return (
     <div>
@@ -15,7 +15,7 @@ function Main(): JSX.Element {
       </header>
       <main>
         {
-          author ? <Chat /> : <Login />
+          isConnected ? <Chat /> : <Login />
         }
       </main>
     </div>

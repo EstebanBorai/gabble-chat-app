@@ -1,5 +1,8 @@
-# gabble
-💬 Tiny chat implementation made with Go and ReactJS
+<div align="center">
+  <img src="https://raw.githubusercontent.com/whizzes/avocado/master/docs/logo/app-icon.png" height="120" width="120" />
+  <h1>gabble</h1>
+  <small>💬 Tiny chat implementation made with Go and ReactJS</small>
+</div>
 
 ## Running Locally
 

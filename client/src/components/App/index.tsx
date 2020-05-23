@@ -1,16 +1,14 @@
 import React, { useRef } from 'react';
 import Main from '../Main';
 import { ChatContextProvider } from '../../contexts/chat';
-import ChatService, { ChatServiceInterface } from '../../services/ChatService';
+import { UserContextProvider } from '../../contexts/user';
 
-function App(): JSX.Element {
-  const chatService = useRef<ChatServiceInterface>(new ChatService());
-
-  return (
-    <ChatContextProvider service={chatService.current}>
+const App = (): JSX.Element => (
+  <ChatContextProvider>
+    <UserContextProvider>
       <Main />
-    </ChatContextProvider>
-  )
-}
+    </UserContextProvider>
+  </ChatContextProvider>
+);
 
 export default App;

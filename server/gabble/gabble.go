@@ -15,7 +15,7 @@ type Gabble struct {
 // New creates a new Gabble instance
 func New(conf config.Config) (*Gabble, error) {
 	var instance *Gabble = new(Gabble)
-	var cht *chat.Chat
+	var ch *chat.Chat
 	var serv *server.Server
 	var logs *logger.Logger
 
@@ -23,13 +23,15 @@ func New(conf config.Config) (*Gabble, error) {
 		logs = logger.NewLogger(int8(conf.GetLogLevel()))
 	}
 
-	cht, err := chat.New(conf, logs)
+	ch, err := chat.New(conf, logs)
+
+	chatRequestHandler := ch.GetHandler()
 
 	if err != nil {
 		return nil, err
 	}
 
-	serv, err = server.NewServer(conf, cht.GetHandler(), logs)
+	serv, err = server.NewServer(conf, chatRequestHandler, logs)
 
 	if err != nil {
 		return nil, err

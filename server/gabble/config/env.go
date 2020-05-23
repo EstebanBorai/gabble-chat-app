@@ -47,6 +47,10 @@ func FromEnvFile() (*EnvConfig, error) {
 	err := godotenv.Load()
 
 	if err != nil {
+		// Provide the capability to create a .env file if
+		// the file doesnt exists, replacing the `build-env.sh`
+		// script.
+		// https://github.com/joho/godotenv/issues/101
 		return nil, err
 	}
 
