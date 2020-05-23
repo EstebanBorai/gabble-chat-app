@@ -1,16 +1,18 @@
 import React, { useContext } from 'react';
 import './login.scss';
-import ChatContext, { ChatContextInterface } from '../../contexts/chat';
+import UserContext, { IUserContext } from '../../contexts/user';
 
 const Login = (): JSX.Element => {
   const [username, setUsername] = React.useState('');
 
-  const { join } = useContext<ChatContextInterface>(ChatContext);
+  const { join } = useContext<IUserContext>(UserContext);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    join(username);
+    join({
+      name: username
+    });
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {

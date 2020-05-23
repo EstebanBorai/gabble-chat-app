@@ -71,6 +71,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "arrbuffstr": "^0.1.1-prerelease",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "rxjs": "^6.5.5"

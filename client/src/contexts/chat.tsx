@@ -1,48 +1,53 @@
-import React, { Context, useState, createContext, useEffect } from 'react';
-import { Author, Message, ChatServiceInterface } from '../services/ChatService';
+import React, { useState, createContext, useEffect, useRef, useCallback } from 'react';
+import ChatService, { Message } from '../services/chat';
 
-export interface ChatContextInterface {
-  author?: Author;
+export interface IChatContext {
   messages: Message[];
+  isConnected: boolean;
   error?: string;
-  join: (username: string) => void;
+  connect: () => void;
   send: (message: string) => void;
 }
 
 export interface ChatContextProps {
-  service: ChatServiceInterface;
   children: JSX.Element;
 }
 
-const ChatContext = createContext<Context<ChatContextInterface>>(null);
+const ChatContext = createContext<IChatContext>(null);
 
 ChatContext.displayName = 'ChatContext';
 
 export function ChatContextProvider(props: ChatContextProps): JSX.Element {
+  const { current: chatService } = useRef(new ChatService());
   const [messages, setMessages] = useState<Message[]>([]);
-  const [author, setAuthor] = useState<Author>(null);
+  const [isConnected, setConnected] = useState(chatService.isConnected.getValue());
 
   useEffect(() => {
-    props.service.messages.subscribe((next) => {
-      setMessages([...next]);
+    const streamSubs = chatService.stream.subscribe((next) => {
+      setMessages([...messages, next]);
     });
 
-    props.service.author.subscribe((next) => {
-      setAuthor(next);
+    const isConnectedSubs = chatService.isConnected.subscribe((conn: boolean) => {
+      setConnected(conn);
     });
 
     return () => {
-      props.service.messages.unsubscribe();
-      props.service.author.unsubscribe();
+      isConnectedSubs.unsubscribe();
+      streamSubs.unsubscribe();
+      chatService.disconnect();
     };
+  }, []);
+
+  const connect = useCallback((): void => {
+    chatService.connect('ws://127.0.0.1:4200');
   }, []);
 
   return (
     <ChatContext.Provider value={{
-      author,
+      isConnected,
       messages,
-      join: props.service.join,
-      send: props.service.send
+      connect,
+      send: chatService.send
     }}>
       {props.children}
     </ChatContext.Provider>
