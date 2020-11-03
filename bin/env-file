@@ -1,3 +1,5 @@
+#!/bin/bash
+
 SERVER_HOST=""
 SERVER_PORT=""
 LOG_LEVEL=""

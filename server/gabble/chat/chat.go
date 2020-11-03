@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/websocket"
-	"github.com/whizzes/gabble/server/gabble/logger"
+	"github.com/EstebanBorai/gabble-chat-app/server/gabble/logger"
 )
 
 // Chat represents a chat session

@@ -4,7 +4,7 @@ RUN apk update && apk add --no-cache git
 
 RUN go get -u github.com/golang/dep/cmd/dep
 
-WORKDIR $GOPATH/src/github.com/whizzes/gabble/server
+WORKDIR $GOPATH/src/github.com/EstebanBorai/gabble-chat-app/server
 
 COPY . .
 

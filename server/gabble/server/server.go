@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/whizzes/gabble/server/gabble/logger"
+	"github.com/EstebanBorai/gabble-chat-app/server/gabble/logger"
 )
 
 // Config represents the Gabble Server configuration

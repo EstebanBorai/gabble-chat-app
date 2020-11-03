@@ -1,8 +1,8 @@
 {
   "name": "gabble-client",
   "version": "0.1.0",
-  "description": "A nice chat",
-  "main": "./src/main.ts",
+  "description": "Tiny chat implementation made with Go and ReactJS",
+  "main": "src/main.ts",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --progress",
     "staging": "cross-env NODE_ENV=staging webpack",
@@ -10,19 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/whizzes/gabble.git"
+    "url": "https://github.com/EstebanBorai/gabble-chat-app.git"
   },
   "author": "https://github.com/whizzes/",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/whizzes/gabble/issues"
+    "url": "https://github.com/EstebanBorai/gabble-chat-app/issues"
   },
   "homepage": "",
   "maintainers": [
     {
       "name": "Esteban Borai",
       "email": "estebanborai@gmail.com",
-      "url": "https://github.com/estebanborai"
+      "url": "https://github.com/EstebanBorai"
     },
     {
       "name": "Julio Sansossio",

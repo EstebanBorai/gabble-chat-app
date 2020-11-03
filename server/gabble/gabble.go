@@ -1,10 +1,10 @@
 package gabble
 
 import (
-	"github.com/whizzes/gabble/server/gabble/chat"
-	"github.com/whizzes/gabble/server/gabble/config"
-	"github.com/whizzes/gabble/server/gabble/logger"
-	"github.com/whizzes/gabble/server/gabble/server"
+	"github.com/EstebanBorai/gabble-chat-app/server/gabble/chat"
+	"github.com/EstebanBorai/gabble-chat-app/server/gabble/config"
+	"github.com/EstebanBorai/gabble-chat-app/server/gabble/logger"
+	"github.com/EstebanBorai/gabble-chat-app/server/gabble/server"
 )
 
 // Gabble instance

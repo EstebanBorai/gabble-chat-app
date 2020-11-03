@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/whizzes/gabble/server/gabble"
-	"github.com/whizzes/gabble/server/gabble/config"
+	"github.com/EstebanBorai/gabble-chat-app/server/gabble"
+	"github.com/EstebanBorai/gabble-chat-app/server/gabble/config"
 )
 
 func main() {
